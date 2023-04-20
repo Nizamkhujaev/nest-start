@@ -14,24 +14,21 @@ import { UsersService } from 'src/users/services/users/users.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(private userServices: UsersService) {}
 
   @Get()
-  getUsers(@Query('sortBy') sortBy: string) {
-    console.log(sortBy);
-    return { username: 'Saidabror', email: 'nizamkhujaev@gmail.com' };
+  getUsers() {
+    return this.userServices.fetchUsers();
   }
 
   @Post()
   @UsePipes(new ValidationPipe())
   createUser(@Body() user: CreateUserDto) {
-    console.log(user);
-    return user;
+    return this.userServices.createUser(user);
   }
 
   @Get(':id')
   getUserById(@Param('id', ParseIntPipe) id: number) {
-    console.log({ id });
-    return { id };
+    return this.userServices.fetchUserById(id);
   }
 }
